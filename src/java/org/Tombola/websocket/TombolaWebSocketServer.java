@@ -2,6 +2,8 @@
 package org.Tombola.websocket;
 
 import java.io.StringReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -15,27 +17,27 @@ import javax.websocket.server.*;
 @ServerEndpoint("/actions")
 public class TombolaWebSocketServer {
 	
-	@Inject
+    @Inject
     private GamerSessionHandler sessionHandler;
 	
-	@OnOpen
-	public void open(Session session) {
-            sessionHandler.addSession(session);
-	}
+    @OnOpen
+    public void open(Session session) {
+        sessionHandler.addSession(session);
+    }
 	
-	@OnClose
+    @OnClose
     public void close(Session session) {
-		
-	}
+        sessionHandler.removeSession(session);
+    }
 	
-	@OnError
+    @OnError
     public void onError(Throwable error) {
-            
-	}
+        Logger.getLogger(TombolaWebSocketServer.class.getName()).log(Level.SEVERE, null, error);
+    }
 	
-	@OnMessage
-	public void handleMessage(String message, Session session) {
-		try (JsonReader reader = Json.createReader(new StringReader(message))) {
+    @OnMessage
+    public void handleMessage(String message, Session session) {
+        try (JsonReader reader = Json.createReader(new StringReader(message))) {
             JsonObject jsonMessage = reader.readObject();
             System.out.println(jsonMessage.toString());
 
@@ -58,9 +60,9 @@ public class TombolaWebSocketServer {
 //                sessionHandler.toggleDevice(id);
 //            }
         }
-	}
+    }
 	
-	public static void main(String[] args) {
+    public static void main(String[] args) {
         new TombolaWebSocketServer();
     }
 }
