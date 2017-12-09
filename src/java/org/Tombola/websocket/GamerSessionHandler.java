@@ -19,6 +19,12 @@ public class GamerSessionHandler {
     
     public void addSession(Session session) {
         sessions.add(session);
+        Gamer g = new Gamer();
+        g.setName("aaaa");
+        g.setStatus("On");
+        g.setType("bbbbb");
+        addGamer(g);
+        //sendToSession(session, createAddMessage(g));
     }
 
     public void removeSession(Session session) {
