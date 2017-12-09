@@ -20,7 +20,7 @@ public class TombolaWebSocketServer {
 	
 	@OnOpen
 	public void open(Session session) {
-		sessionHandler.addSession(session);
+            sessionHandler.addSession(session);
 	}
 	
 	@OnClose
@@ -37,7 +37,6 @@ public class TombolaWebSocketServer {
 	public void handleMessage(String message, Session session) {
 		try (JsonReader reader = Json.createReader(new StringReader(message))) {
             JsonObject jsonMessage = reader.readObject();
-            System.out.println("org.Tombola.websocket.TombolaWebSocketServer.handleMessage()");
             System.out.println(jsonMessage.toString());
 
 //            if ("add".equals(jsonMessage.getString("action"))) {
